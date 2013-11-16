@@ -1,0 +1,49 @@
+[user]
+	name = Alexander Belov
+	email = p@mesquite.ru
+[color]
+	status = auto
+[alias]
+	b  = branch
+	d  = difftool
+	ds = difftool --staged
+	s  = stash
+	st = status -s
+	a  = add
+	aa = add .
+	ap = add -p
+	c  = commit -m
+	ca = commit -am
+	co = checkout
+	p  = push
+	l  = pull
+	lr = pull --rebase
+	cp = cherry-pick
+	ri = rebase -i
+	r = rebase
+	f = fetch
+	cl = clone
+	cr = clone --recursive
+    sm = submodule
+    sma = submodule add
+    sme = submodule each
+[core]
+	editor = vim
+	quotepath = false
+	excludesfile = /Users/porqz/.gitignore
+[difftool "Kaleidoscope"]
+	cmd = ksdiff-wrapper git \"$LOCAL\" \"$REMOTE\"
+[difftool]
+	prompt = false
+[diff]
+	tool = Kaleidoscope
+
+
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[push]
+	default = simple
