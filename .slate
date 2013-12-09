@@ -1,0 +1,22 @@
+config defaultToCurrentScreen true
+config snapshotMaxStackSize 10
+
+# Leader key
+alias leader alt;cmd
+
+alias maximize move screenOriginX;screenOriginY screenSizeX;screenSizeY
+
+# Zoomed window
+bind up:shift;${leader} ${maximize}
+# Old bindings
+bind m:${leader} ${maximize}
+bind m:shift;cmd ${maximize}
+
+# Half-sized windows
+bind right:${leader}  sequence push right bar-resize:(screenSizeX/2) > push right
+bind left:${leader}   sequence push left  bar-resize:(screenSizeX/2) > push left
+bind up:${leader}     sequence push up    bar-resize:(screenSizeY/2) > push up
+bind down:${leader}   sequence push down  bar-resize:(screenSizeY/2) > push down
+
+# The Grid
+bind f4:cmd grid padding:5 0:6,2
