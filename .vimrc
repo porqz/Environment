@@ -1,7 +1,8 @@
+set nocompatible
+
 filetype off
 
 if has('vim_starting')
-    set nocompatible " Be iMproved
     set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
@@ -70,13 +71,44 @@ nnoremap <leader><leader> :<C-u>Unite -start-insert buffer file_mru file_rec<CR>
 " }}}
 
 
-NeoBundle 'Shougo/vimfiler.vim' " {{{
+NeoBundle 'Shougo/vimfiler.vim', { 'depends' : 'Shougo/unite.vim' } " {{{
+
+autocmd VimEnter * VimFilerDouble
+
 let g:vimfiler_as_default_explorer=1
+let g:vimfiler_safe_mode_by_default=0
+"let g:vimfiler_no_default_key_mappings=1
+let g:vimfiler_split_rule='topright'
 let g:vimfiler_quick_look_command='qlmanage -p'
+let g:vimfiler_time_format='%d.%m.%Y %H:%M'
+"let g:vimfiler_tree_leaf_icon='⎸'
+
+autocmd FileType vimfiler nmap <buffer><expr> <D-r> "\<Plug>(vimfiler_redraw_screen)"
+autocmd FileType vimfiler nmap <buffer><expr> h "\<Plug>(vimfiler_toggle_visible_ignore_files)"
+
+autocmd FileType vimfiler nmap <buffer><expr> <Right> "\<Plug>(vimfiler_expand_tree)"
+autocmd FileType vimfiler nmap <buffer><expr> <Left> "\<Plug>(vimfiler_expand_tree)"
+
+autocmd FileType vimfiler nmap <buffer><expr> <M-Up> "\<Plug>(vimfiler_jump_first_child)"
+autocmd FileType vimfiler nmap <buffer><expr> <M-Down> "\<Plug>(vimfiler_jump_last_child)"
+"autocmd FileType vimfiler nmap <buffer><expr> <Left> "\<Plug>(vimfiler_expand_tree)"
+"autocmd FileType vimfiler nmap <buffer><expr> <Left> "\<Plug>(vimfiler_expand_tree)"
+"autocmd FileType vimfiler nmap <buffer><expr> <Left> "\<Plug>(vimfiler_expand_tree)"
+"autocmd FileType vimfiler nmap <buffer><expr> <Left> "\<Plug>(vimfiler_expand_tree)"
+
+autocmd FileType vimfiler nmap <buffer><expr> <Esc> "\<Plug>(vimfiler_close)"
+autocmd FileType vimfiler nmap <buffer><expr> <CR> vimfiler#smart_cursor_map(
+                \  "\<Plug>(vimfiler_execute)",
+                \  "\<Plug>(vimfiler_edit_file)")
+
+autocmd FileType vimfiler nmap <buffer><expr> n "\<Plug>(vimfiler_make_directory)"
+
+
+"autocmd FileType vimfiler nmap <buffer><expr> <Plug>(vimfiler_double_click) <Plug>(vimfiler_split_switch)
 " }}}
 
 
-NeoBundle 'h1mesuke/unite-outline', {'depends' : 'Shougo/unite.vim' } " {{{
+NeoBundle 'h1mesuke/unite-outline', { 'depends' : 'Shougo/unite.vim' } " {{{
 " }}}
 
 
@@ -95,13 +127,18 @@ let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=2
 let g:syntastic_loc_list_height=8
 
-let g:syntastic_error_symbol='●'
-let g:syntastic_warning_symbol='●'
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+
+let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_javascript_jshint_conf='/Users/porqz/.jshintrc'
 
 let g:syntastic_mode_map={
  \ 'mode': 'active',
  \ 'active_filetypes': ['ruby', 'javascript', 'css', 'scss', 'smarty', 'html', 'less', 'viml'],
  \ 'passive_filetypes': ['haml', 'php'] }
+
+let g:syntastic_filetype_map = { 'handlebars.html': 'handlebars' }
 " }}}
 
 
@@ -141,13 +178,9 @@ let g:neocomplete#sources#syntax#min_keyword_length=1
 let g:neocomplete#min_keyword_length=1
 let g:neocomplete#auto_completion_start_length=1
 
-"inoremap <silent> <CR> <C-r>=<SID>complete_cr_function()<CR>
-"function! s:complete_cr_function()
-     "For no inserting <CR> key.
-    "return pumvisible() ? neocomplete#close_popup() : "\<Plug>(delimitMateCR)"
-"endfunction
 imap <expr> <CR> pumvisible() ? neocomplete#close_popup() : '<Plug>delimitMateCR'
 inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+
 
 set ofu=syntaxcomplete#Complete
 " Enable omni completion.
@@ -167,7 +200,7 @@ call neocomplete#custom#source('neosnippet',
 call neocomplete#custom#source('syntax',
     \ 'disabled_filetypes', {'css': 1, 'less': 1})
 
-set completeopt=menuone
+set completeopt=menu
 set infercase
 " Pmenu		normal item
 " PmenuSel	selected item
@@ -216,10 +249,6 @@ let g:html_indent_style1='inc'
 " }}}
 
 
-NeoBundle 'roman/golden-ratio' " {{{
-" }}}
-
-
 NeoBundle 'vim-scripts/applescript.vim' " {{{
 " }}}
 
@@ -231,6 +260,15 @@ NeoBundle 'wting/rust.vim' " {{{
 NeoBundle 'vim-scripts/nginx.vim' " {{{
 au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/*,/Users/porqz/Desktop/*.inc set filetype=nginx
 " }}}
+
+
+NeoBundle 'porqz/zact.vim' " {{{
+" }}}
+
+
+NeoBundle 'Yggdroot/indentLine'
+let g:indentLine_char='⎸'
+let g:indentLine_color_gui='#eee8d6'
 
 
 filetype indent on
@@ -269,7 +307,7 @@ set sessionoptions=blank,curdir,folds,winsize,resize,tabpages
 
 set list
 set listchars=tab:¨\ ,eol:¬,conceal:…,nbsp:⋯
-set fillchars=stl:\ ,stlnc:\ ,vert:\ " ,fold:⋅
+set fillchars=stl:\ ,stlnc:\ ,vert:⎸" ,fold:⋅
 hi SpecialKey ctermfg=1 guifg=#839496 guibg=NONE
 
 " Highlight current line
@@ -280,6 +318,8 @@ set guioptions-=rL
 set guioptions-=T
 set guifont=Monaco:h10
 set noantialias
+set winminheight=0
+set noequalalways
 
 " Encodings
 set fileencodings=utf-8,cp1251,koi8-r,cp866
@@ -301,8 +341,8 @@ set nowrapscan
 set gdefault
 
 " Ctrl + C to clear highlight after searching
-nmap <C-c> <Esc>:nohls<CR>
-imap <C-c> <Esc>:nohls<CR>i
+noremap <C-c> <Esc>:nohls<CR>
+inoremap <C-c> <Esc>:nohls<CR>i
 
 " Make regex a little easier to type
 set magic
@@ -332,3 +372,10 @@ set updatetime=1500
 set foldmethod=marker
 
 au BufRead,BufNewFile * :set shiftwidth=4
+
+hi clear StatusLine
+hi clear StatusLineNC
+hi StatusLine guifg=#fcf6e4 guibg=#667b83
+hi StatusLineNC guifg=#eee8d7 guibg=#93a1a1
+hi VertSplit guifg=#93a1a1 guibg=#93a1a1
+hi CursorLineNr guibg=#eee8d6
