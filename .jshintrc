@@ -1,0 +1,81 @@
+{
+    "maxerr": 50,
+
+    // Enforcing options
+    "bitwise": true,
+    "camelcase": true,
+    "curly": true,
+    "eqeqeq": true,
+    "es3": true,
+    "forin": false,
+    "freeze": true,
+    "immed": true,
+    "indent": 4,
+    "latedef": "nofunc",
+    "newcap": true,
+    "noarg": true,
+    "noempty": false,
+    "nonew": true,
+    "plusplus": true,
+    "quotmark": true,
+    "undef": true,
+    "unused": "vars",
+    "strict": false,
+    "trailing": true,
+    "maxcomplexity": 15,
+    "maxlen": 140,
+    //
+    // Relaxing options
+    "asi": false,
+    "boss": false,
+    "debug": false,
+    "eqnull": false,
+    "esnext": false,
+    "evil": true,
+    "expr": false,
+    "funcscope": false,
+    "globalstrict": true,
+    "iterator": false,
+    "lastsemic": false,
+    "laxbreak": false,
+    "laxcomma": false,
+    "loopfunc": false,
+
+    "moz": true,
+
+    "multistr": false,
+    "notypeof": false,
+    "proto": false,
+    "scripturl": false,
+    "smarttabs": false,
+    "shadow": false,
+    "sub": false,
+    "supernew": false,
+    "validthis": false,
+
+    // Environment (predefined variables)
+    "browser": true,
+    "couch": false,
+    "devel": true,
+    "dojo": false,
+    "jquery": true,
+    "mootools": false,
+    "node": true,
+    "nonstandard": false,
+    "phantom": true,
+    "prototypejs": false,
+    "rhino": false,
+    "worker": true,
+    "wsh": true,
+    "yui": false,
+
+    "nomen": false,
+    "onevar": false,
+
+    "predef": [
+        "exports",
+        "require",
+
+        "_g"
+    ]
+}
