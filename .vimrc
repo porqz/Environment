@@ -2,14 +2,29 @@ set nocompatible
 
 filetype off
 
+if strlen(glob('~/.vim')) == 0
+    echo "\nThere is no `~/.vim` directory. Creating..."
+    echo system('mkdir -p ~/.vim')
+endif
+
+if strlen(glob('~/.vim/bundle')) == 0
+    echo "\nThere is no `bundle` directory in `~/.vim` directory. Creating..."
+    echo system('mkdir -p ~/.vim/bundle')
+endif
+
+if strlen(glob('~/.vim/bundle/neobundle.vim')) == 0
+    echo "\nCloning NeoBundle plugin files into `~/.vim/bundle/neobundle.vim` directory..."
+    echo system('git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim')
+endif
+
 if has('vim_starting')
     set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
 call neobundle#rc(expand('~/.vim/bundle/'))
 
-NeoBundleFetch 'Shougo/neobundle.vim'
 
+NeoBundleFetch 'Shougo/neobundle.vim'
 
 
 NeoBundle 'Shougo/vimproc', " {{{
@@ -22,36 +37,24 @@ NeoBundle 'Shougo/vimproc', " {{{
     \    },
     \ }
 " }}}
-
-
-NeoBundle 'porqz/KeyboardLayoutSwitcher' " {{{
-let g:kls_defaultInputSourceIndex=0
-" }}}
-
-
+"NeoBundle 'porqz/KeyboardLayoutSwitcher' " {{{
+"let g:kls_defaultInputSourceIndex=0
+"" }}}
 NeoBundle 'scrooloose/nerdcommenter' " {{{
 " }}}
-
-
 NeoBundle 'JulesWang/css.vim' " {{{
 " }}}
-
-
 NeoBundle 'hail2u/vim-css3-syntax' " {{{
 " }}}
-
-
 NeoBundle 'groenewege/vim-less' " {{{
 " }}}
-
-
 NeoBundle 'Shougo/unite.vim' " {{{
 
 let g:unite_enable_short_source_names=0
 let g:unite_winheight=10
 let g:unite_marked_icon='●'
 let g:unite_candidate_icon=''
-let g:unite_source_file_mru_time_format="%b %d %X | "
+let g:unite_source_file_mru_time_format="%b %d %X  ⎸ "
 let g:unite_source_buffer_time_format=''
 let g:unite_source_file_mru_filename_format=':.'
 let g:unite_cursor_line_highlight='CursorLine'
@@ -69,11 +72,9 @@ endfunction " }}}
 
 nnoremap <leader><leader> :<C-u>Unite -start-insert buffer file_mru file_rec<CR>
 " }}}
-
-
 NeoBundle 'Shougo/vimfiler.vim', { 'depends' : 'Shougo/unite.vim' } " {{{
 
-autocmd VimEnter * VimFilerDouble
+autocmd VimEnter * VimFilerCurrentDir
 
 let g:vimfiler_as_default_explorer=1
 let g:vimfiler_safe_mode_by_default=0
@@ -106,20 +107,14 @@ autocmd FileType vimfiler nmap <buffer><expr> n "\<Plug>(vimfiler_make_directory
 
 "autocmd FileType vimfiler nmap <buffer><expr> <Plug>(vimfiler_double_click) <Plug>(vimfiler_split_switch)
 " }}}
-
-
 NeoBundle 'h1mesuke/unite-outline', { 'depends' : 'Shougo/unite.vim' } " {{{
 " }}}
-
-
 NeoBundle 'altercation/vim-colors-solarized' " {{{
 syntax enable
 set background=light
 colorscheme solarized
 let g:solarized_termcolors=256
 " }}}
-
-
 NeoBundle 'scrooloose/syntastic' " {{{
 
 let g:syntastic_check_on_open=0
@@ -140,18 +135,12 @@ let g:syntastic_mode_map={
 
 let g:syntastic_filetype_map = { 'handlebars.html': 'handlebars' }
 " }}}
-
-
 NeoBundle 'marijnh/tern_for_vim', {'build': {'mac': 'npm install'}}  " {{{
 let g:tern_show_argument_hints='on_hold'
 let g:tern_map_keys=1
 " }}}
-
-
 NeoBundle 'Shougo/context_filetype.vim' " {{{
 " }}}
-
-
 NeoBundle 'Raimondi/delimitMate' " {{{
 let delimitMate_expand_cr=1
 let delimitMate_expand_space=1
@@ -160,8 +149,8 @@ let delimitMate_smart_quotes=1
 let delimitMate_balance_matchpairs=1
 let delimitMate_excluded_regions='Comment'
 " }}}
-
-
+NeoBundle 'tpope/vim-surround' " {{{
+" }}}
 NeoBundle 'Shougo/neocomplete.vim' " {{{
 
 call neobundle#config('neocomplete.vim', {
@@ -207,8 +196,6 @@ set infercase
 " PmenuSbar	scrollbar
 " PmenuThumb	thumb of the scrollbar
 " }}}
-
-
 NeoBundle 'Shougo/neosnippet.vim' " {{{
 let g:neosnippet#snippets_directory='~/.vim/snippets'
 " SuperTab like snippets behavior.
@@ -219,19 +206,25 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
     \ "\<Plug>(neosnippet_expand_or_jump)"
     \: "\<TAB>"
 " }}}
-
-
+NeoBundle 'hrsh7th/vim-neco-calc' " {{{
+" }}}
 NeoBundle 'pangloss/vim-javascript' " {{{
 " }}}
-
-
+NeoBundle 'ahayman/vim-nodejs-complete' " {{{
+let g:nodejs_complete_config = {
+    \  'max_node_compl_len': 0
+\}
+" }}}
+NeoBundle 'guileen/vim-node-dict' " {{{
+au FileType javascript set dictionary+=$HOME/.vim/bundle/vim-node-dict/dict/node.dict
+" }}}
+NeoBundle 'sidorares/node-vim-debugger' " {{{
+" }}}
 NeoBundle 'Valloric/MatchTagAlways' " {{{
 let g:mta_use_matchparen_group=0
 let g:mta_set_default_matchtag_color=0
 highlight MatchTag guifg=#E12E34 guibg=#eee8d6
 " }}}
-
-
 NeoBundle 'lilydjwg/colorizer' " {{{
 
 let g:colorizer_nomap=1
@@ -240,45 +233,41 @@ au BufRead,BufNewFile * :if !exists('colorizer_is_enabled')
     \ | ColorHighlight
     \ | endif
 " }}}
-
-
 NeoBundle 'othree/html5.vim' " {{{
 let g:html_indent_inctags='html,body,head,tbody'
 let g:html_indent_script1='inc'
 let g:html_indent_style1='inc'
 " }}}
-
-
 NeoBundle 'vim-scripts/applescript.vim' " {{{
 " }}}
-
-
 NeoBundle 'wting/rust.vim' " {{{
 " }}}
-
-
 NeoBundle 'vim-scripts/nginx.vim' " {{{
 au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/*,/Users/porqz/Desktop/*.inc set filetype=nginx
 " }}}
-
-
 NeoBundle 'porqz/zact.vim' " {{{
 " }}}
-
-
-NeoBundle 'Yggdroot/indentLine'
+"NeoBundle 'mhinz/vim-signify' " {{{
+" }}}
+NeoBundle 'airblade/vim-gitgutter' " {{{
+" }}}
+"NeoBundle 'Yggdroot/indentLine' " {{{
 let g:indentLine_char='⎸'
 let g:indentLine_color_gui='#eee8d6'
+" }}}
+NeoBundle 'gmarik/sudo-gui.vim' " {{{
+" }}}
 
 
 filetype indent on
 filetype plugin indent on
 
+NeoBundleClean
 NeoBundleCheck
 
 
 " Reload .vimrc when it edited
-autocmd! bufwritepost .vimrc source % "| NeoBundleUpdate
+autocmd! bufwritepost .vimrc source %
 
 " Opening new split panes to right feels more natural
 set splitright
@@ -379,3 +368,14 @@ hi StatusLine guifg=#fcf6e4 guibg=#667b83
 hi StatusLineNC guifg=#eee8d7 guibg=#93a1a1
 hi VertSplit guifg=#93a1a1 guibg=#93a1a1
 hi CursorLineNr guibg=#eee8d6
+hi SignColumn guifg=#657b83 guibg=#eee8d6
+hi SyntasticErrorSign guifg=#c94819 guibg=#eee8d6
+hi SyntasticWarningSign guifg=#b38918 guibg=#eee8d6
+
+
+map <D-S> <Esc>:w !sudo tee %
+
+set noimdisable
+
+set iminsert=0
+set imsearch=0
