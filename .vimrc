@@ -369,6 +369,7 @@ set updatetime=1500
 
 set foldmethod=marker
 
+" @TODO: Set the option for JS, LESS and Handlebars formats only
 au BufRead,BufNewFile * :set shiftwidth=4
 
 hi clear StatusLine
@@ -382,7 +383,8 @@ hi SyntasticErrorSign guifg=#c94819 guibg=#eee8d6
 hi SyntasticWarningSign guifg=#b38918 guibg=#eee8d6
 
 
-map <D-S> <Esc>:w !sudo tee %
+" @TODO: Think about modes
+map <D-S> <Esc>:W!
 
 set noimdisable
 
