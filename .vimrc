@@ -2,26 +2,35 @@ set nocompatible
 
 filetype off
 
-if strlen(glob('~/.vim')) == 0
-    echo "\nThere is no `~/.vim` directory. Creating..."
-    echo system('mkdir -p ~/.vim')
+let s:home_dir_name="~"
+let s:vim_dir_name=".vim"
+let s:bundle_dir_name="bundle"
+let s:neobundle_dir_name="neobundle.vim"
+
+let s:vim_dir_path=s:home_dir_name . "/" . s:vim_dir_name
+if glob(escape(s:vim_dir_path, ".")) == ""
+    echo "\nThere is no `" . s:vim_dir_path . "` directory. Creating..."
+    echo system("mkdir -p " . s:vim_dir_path)
 endif
 
-if strlen(glob('~/.vim/bundle')) == 0
-    echo "\nThere is no `bundle` directory in `~/.vim` directory. Creating..."
-    echo system('mkdir -p ~/.vim/bundle')
+let s:bundle_dir_path=s:vim_dir_path . "/" . s:bundle_dir_name
+if glob(escape(s:bundle_dir_path, ".")) == ""
+    echo "There is no `" . s:bundle_dir_name . "` directory in `" . s:vim_dir_path . "` directory. Creating... " . s:bundle_dir_path
+    echo system("mkdir -p " . s:bundle_dir_path)
 endif
 
-if strlen(glob('~/.vim/bundle/neobundle.vim')) == 0
-    echo "\nCloning NeoBundle plugin files into `~/.vim/bundle/neobundle.vim` directory..."
-    echo system('git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim')
+let s:neobundle_dir_path=s:bundle_dir_path . "/" . s:neobundle_dir_name
+if glob(escape(s:neobundle_dir_path, ".")) == ""
+    echo "Now we should install NeoBundle plugin..."
+    echo system("git clone https://github.com/Shougo/neobundle.vim " . s:neobundle_dir_path)
+    echo system(s:neobundle_dir_path . "/bin/neoinstall")
 endif
 
 if has('vim_starting')
-    set runtimepath+=~/.vim/bundle/neobundle.vim/
+    set runtimepath+=~/.vim/bundle/neobundle.vim
 endif
 
-call neobundle#rc(expand('~/.vim/bundle/'))
+call neobundle#rc(expand(s:bundle_dir_path))
 
 
 NeoBundleFetch 'Shougo/neobundle.vim'
