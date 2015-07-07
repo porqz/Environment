@@ -2,15 +2,12 @@ config defaultToCurrentScreen true
 config snapshotMaxStackSize 10
 
 # Leader key
-alias leader alt;cmd
+alias leader ctrl;alt;cmd
 
 alias maximize move screenOriginX;screenOriginY screenSizeX;screenSizeY
 
 # Zoomed window
-bind up:shift;${leader} ${maximize}
-# Old bindings
 bind m:${leader} ${maximize}
-bind m:shift;cmd ${maximize}
 
 # Half-sized windows
 bind right:${leader}  sequence push right bar-resize:(screenSizeX/2) > push right
